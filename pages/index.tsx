@@ -37,7 +37,7 @@ export default function Home({ movies }: AppProps) {
                     />
                   </div>
                   <div className="p-4">
-                    <span className="inline-block px-2 py-1 leading-none bg-purple-600 text-gray-100 rounded font-semibold uppercase tracking-wide text-xs">
+                    <span className="inline-block px-2 py-1 leading-none bg-purple-100 text-purple-800 rounded font-semibold uppercase tracking-wide text-xs">
                       <BiCameraMovie className="inline-block mr-1" />
                       Now Playing
                     </span>
