@@ -47,13 +47,13 @@ export default function Home({ movies }: AppProps) {
                     </span>
                     <span
                       title="Language"
-                      className="inline-block px-2 py-1 ml-1 leading-none bg-indigo-100 text-indigo-800 rounded-full font-bold uppercase tracking-wide text-sm"
+                      className="inline-block px-2 py-1 ml-1 leading-none bg-gray-100 text-gray-800 rounded-full font-bold uppercase tracking-wide text-sm"
                     >
                       {data.node.originalLanguage}
                     </span>
                     <span
                       title="Released date"
-                      className="inline-block  px-2 py-1 ml-1 leading-none bg-indigo-100 text-indigo-800 rounded-full font-bold capitalize tracking-wide text-sm"
+                      className="inline-block  px-2 py-1 ml-1 leading-none bg-gray-100 text-gray-800 rounded-full font-bold capitalize tracking-wide text-sm"
                     >
                       {dayjs(data.node.releaseDate).format("DD MMM YYYY")}
                     </span>
@@ -62,7 +62,7 @@ export default function Home({ movies }: AppProps) {
                     </h2>
                     <p className="text-base">{data.node.overview}</p>
                   </div>
-                  <div className="p-4 border-t border-b text-xs bg-gray-50">
+                  <div className="p-2 border-t border-b text-xs bg-gray-50">
                     <div className="flex overflow-x-scroll no-scrollbar">
                       {data.node.credits.cast.map(
                         (person: any, index: number) => {
@@ -70,10 +70,10 @@ export default function Home({ movies }: AppProps) {
                           return (
                             <div
                               key={person.value.name}
-                              className="flex-shrink-0 m-2 p-2 shadow-md rounded-lg bg-white"
+                              className="flex-shrink-0 m-2 p-2 shadow-md rounded-lg bg-white inline-flex"
                             >
                               <Image
-                                className="absolute inset-0 h-full w-full object-cover rounded-lg select-none"
+                                className="object-cover rounded-lg select-none"
                                 width="70"
                                 height="100"
                                 src={
