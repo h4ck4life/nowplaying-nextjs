@@ -15,6 +15,25 @@ type AppProps = {
 };
 
 export default function Home({ movies }: AppProps) {
+
+  const minutesToHourFormatter = function (minute: any) {
+    let sec_num = parseInt(minute, 10); // don't forget the second param
+    let hours: any = Math.floor(sec_num / 3600);
+    let minutes: any = Math.floor((sec_num - hours * 3600) / 60);
+    let seconds: any = sec_num - hours * 3600 - minutes * 60;
+
+    if (hours < 10) {
+      hours = "0" + hours;
+    }
+    if (minutes < 10) {
+      minutes = minutes;
+    }
+    if (seconds < 10) {
+      seconds = "0" + seconds;
+    }
+    return `${minutes}h ${seconds}m`;
+  };
+
   return (
     <>
       <Head>
@@ -23,7 +42,9 @@ export default function Home({ movies }: AppProps) {
       <div className="container mx-auto">
         <div className="table-cell text-purple-800">
           <BiCameraMovie className="text-6xl inline-flex mr-2" />
-          <span className="text-3xl font-semibold align-middle">NowPlaying</span>
+          <span className="text-3xl font-semibold align-middle">
+            NowPlaying
+          </span>
         </div>
         <div className="flex flex-wrap -mx-4 mt-2">
           {movies.map((data) => {
@@ -55,9 +76,15 @@ export default function Home({ movies }: AppProps) {
                     </span>
                     <span
                       title="Language"
-                      className="inline-block px-2 py-1 ml-1 leading-none bg-gray-100 text-purple-800 rounded font-bold uppercase tracking-wide text-sm"
+                      className="inline-block px-2 py-1 ml-1 leading-none bg-gray-100 text-purple-800 rounded font-bold capitalize tracking-wide text-sm"
                     >
                       {data.node.originalLanguage}
+                    </span>
+                    <span
+                      title="Runtime"
+                      className="inline-block px-2 py-1 ml-1 leading-none bg-gray-100 text-purple-800 rounded font-bold tracking-wide text-sm"
+                    >
+                      {minutesToHourFormatter(data.node.runtime)}
                     </span>
                     <span
                       title="Released date"
@@ -65,7 +92,7 @@ export default function Home({ movies }: AppProps) {
                     >
                       {dayjs(data.node.releaseDate).format("DD MMM YYYY")}
                     </span>
-                    <h2 className="mt-3 mb-2 font-bold text-2xl">
+                    <h2 className="mt-4 mb-3 font-bold text-2xl">
                       {data.node.originalTitle}
                     </h2>
                     <p className="text-base">{data.node.overview}</p>
@@ -190,6 +217,7 @@ export async function getServerSideProps() {
               node {
                 id
                 revenue
+                runtime
                 releaseDate
                 rating
                 overview
