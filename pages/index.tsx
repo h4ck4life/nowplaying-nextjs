@@ -12,7 +12,6 @@ type AppProps = {
 };
 
 export default function Home({ movies }: AppProps) {
-  console.log(movies);
   return (
     <>
       <Head>
