@@ -6,7 +6,7 @@ import client from "../apollo-client";
 
 import dayjs from "dayjs";
 import { AiOutlineInstagram } from "react-icons/ai";
-import { BiCameraMovie } from "react-icons/bi";
+import { BiCameraMovie, BiLike } from "react-icons/bi";
 
 type AppProps = {
   movies: any[];
@@ -44,6 +44,7 @@ export default function Home({ movies }: AppProps) {
                       title="Rating"
                       className="inline-block px-2 py-1 ml-1 leading-none bg-green-600 text-gray-100 rounded-full font-bold uppercase tracking-wide text-sm"
                     >
+                      <BiLike className="inline-block mr-1" />
                       {(data.node.rating as number).toFixed(1)}
                     </span>
                     <span
