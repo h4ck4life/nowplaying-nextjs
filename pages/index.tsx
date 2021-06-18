@@ -7,7 +7,8 @@ import client from "../apollo-client";
 import dayjs from "dayjs";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { BiCameraMovie, BiLike, BiMovie } from "react-icons/bi";
-import { MdLanguage } from "react-icons/md";
+import { MdLanguage, MdMovieFilter } from "react-icons/md";
+import { RiMovie2Line } from "react-icons/ri";
 
 type AppProps = {
   movies: any[];
@@ -20,7 +21,11 @@ export default function Home({ movies }: AppProps) {
         <title>Now Playing Movies</title>
       </Head>
       <div className="container mx-auto">
-        <div className="flex flex-wrap -mx-4">
+        <div className="table-cell text-purple-800">
+          <BiCameraMovie className="text-6xl inline-flex mr-2" />
+          <span className="text-3xl font-semibold align-middle">NowPlaying</span>
+        </div>
+        <div className="flex flex-wrap -mx-4 mt-2">
           {movies.map((data) => {
             return (
               <div
@@ -37,10 +42,10 @@ export default function Home({ movies }: AppProps) {
                     />
                   </div>
                   <div className="p-4">
-                    <span className="inline-block px-2 py-1 leading-none bg-purple-100 text-purple-800 rounded font-semibold uppercase tracking-wide text-xs">
+                    {/* <span className="inline-block px-2 py-1 leading-none bg-purple-100 text-purple-800 rounded font-semibold uppercase tracking-wide text-xs">
                       <BiCameraMovie className="inline-block mr-1" />
                       Now Playing
-                    </span>
+                    </span> */}
                     <span
                       title="Rating"
                       className="inline-block px-2 py-1 ml-1 leading-none bg-indigo-600 text-gray-100 rounded font-bold uppercase tracking-wide text-sm"
@@ -136,7 +141,7 @@ export default function Home({ movies }: AppProps) {
                       }
                     })}
                   </div> */}
-                  <div className="p-4 flex items-center text-sm text-purple-600">
+                  <div className="p-4 flex items-center text-sm text-gray-600">
                     <a
                       href={data.node.homepage}
                       target="_blank"
