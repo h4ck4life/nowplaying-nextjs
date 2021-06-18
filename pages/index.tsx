@@ -6,6 +6,7 @@ import client from "../apollo-client";
 
 import dayjs from "dayjs";
 import { AiOutlineInstagram } from "react-icons/ai";
+import { BiCameraMovie } from "react-icons/bi";
 
 type AppProps = {
   movies: any[];
@@ -36,6 +37,7 @@ export default function Home({ movies }: AppProps) {
                   </div>
                   <div className="p-4">
                     <span className="inline-block px-2 py-1 leading-none bg-yellow-200 text-yellow-800 rounded-full font-semibold uppercase tracking-wide text-xs">
+                    <BiCameraMovie className="inline-block mr-1" />
                       Now Playing
                     </span>
                     <span
@@ -62,7 +64,7 @@ export default function Home({ movies }: AppProps) {
                     <p className="text-base">{data.node.overview}</p>
                   </div>
                   <div className="p-2 border-t border-b text-xs bg-gray-50">
-                    <div className="flex overflow-x-scroll no-scrollbar">
+                    <div className="flex overflow-x-scroll">
                       {data.node.credits.cast.map(
                         (person: any, index: number) => {
                           if (index > 8) return;
@@ -147,7 +149,7 @@ export async function getServerSideProps() {
     query: gql`
       query getMovies {
         movies {
-          nowPlaying(first: 12) {
+          nowPlaying(first: 20) {
             totalCount
             edges {
               cursor
