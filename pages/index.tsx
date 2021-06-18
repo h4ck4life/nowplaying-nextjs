@@ -6,7 +6,8 @@ import client from "../apollo-client";
 
 import dayjs from "dayjs";
 import { AiOutlineInstagram } from "react-icons/ai";
-import { BiCameraMovie, BiLike } from "react-icons/bi";
+import { BiCameraMovie, BiLike, BiMovie } from "react-icons/bi";
+import { MdLanguage } from "react-icons/md";
 
 type AppProps = {
   movies: any[];
@@ -36,30 +37,30 @@ export default function Home({ movies }: AppProps) {
                     />
                   </div>
                   <div className="p-4">
-                    <span className="inline-block px-2 py-1 leading-none bg-yellow-200 text-yellow-800 rounded-full font-semibold uppercase tracking-wide text-xs">
-                    <BiCameraMovie className="inline-block mr-1" />
+                    <span className="inline-block px-2 py-1 leading-none bg-purple-600 text-gray-100 rounded font-semibold uppercase tracking-wide text-xs">
+                      <BiCameraMovie className="inline-block mr-1" />
                       Now Playing
                     </span>
                     <span
                       title="Rating"
-                      className="inline-block px-2 py-1 ml-1 leading-none bg-green-600 text-gray-100 rounded-full font-bold uppercase tracking-wide text-sm"
+                      className="inline-block px-2 py-1 ml-1 leading-none bg-indigo-600 text-gray-100 rounded font-bold uppercase tracking-wide text-sm"
                     >
                       <BiLike className="inline-block mr-1" />
                       {(data.node.rating as number).toFixed(1)}
                     </span>
                     <span
                       title="Language"
-                      className="inline-block px-2 py-1 ml-1 leading-none bg-gray-100 text-gray-800 rounded-full font-bold uppercase tracking-wide text-sm"
+                      className="inline-block px-2 py-1 ml-1 leading-none bg-gray-100 text-purple-800 rounded font-bold uppercase tracking-wide text-sm"
                     >
                       {data.node.originalLanguage}
                     </span>
                     <span
                       title="Released date"
-                      className="inline-block  px-2 py-1 ml-1 leading-none bg-gray-100 text-gray-800 rounded-full font-bold capitalize tracking-wide text-sm"
+                      className="inline-block  px-2 py-1 ml-1 leading-none bg-gray-100 text-purple-800 rounded font-bold capitalize tracking-wide text-sm"
                     >
                       {dayjs(data.node.releaseDate).format("DD MMM YYYY")}
                     </span>
-                    <h2 className="mt-2 mb-2 font-bold text-2xl">
+                    <h2 className="mt-3 mb-2 font-bold text-2xl">
                       {data.node.originalTitle}
                     </h2>
                     <p className="text-base">{data.node.overview}</p>
@@ -120,7 +121,7 @@ export default function Home({ movies }: AppProps) {
                       )}
                     </div>
                   </div>
-                  <div className="p-4 flex items-center text-sm text-gray-600">
+                  {/* <div className="p-4 flex items-center text-sm text-gray-600">
                     {data.node.productionCompanies.map((company: any) => {
                       if (company.logo) {
                         return (
@@ -134,6 +135,33 @@ export default function Home({ movies }: AppProps) {
                         );
                       }
                     })}
+                  </div> */}
+                  <div className="p-4 flex items-center text-sm text-purple-600">
+                    <a
+                      href={data.node.homepage}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span className="bg-gray-50 hover:bg-gray-200 cursor-pointer p-1 rounded mr-2 font-semibold">
+                        <MdLanguage className="inline-flex mr-1" />
+                        Official Site
+                      </span>
+                    </a>
+
+                    {data.node.videos && data.node.videos.length > 0 ? (
+                      <a
+                        href={data.node.videos[0].links.web}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span className="bg-gray-50 hover:bg-gray-200 cursor-pointer p-1 rounded mr-2 font-semibold">
+                          <BiMovie className="inline-flex mr-1" />
+                          Trailer
+                        </span>
+                      </a>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </div>
@@ -168,6 +196,13 @@ export async function getServerSideProps() {
                 productionCompanies {
                   name
                   logo(size: W45)
+                }
+                videos {
+                  site
+                  type
+                  links {
+                    web
+                  }
                 }
                 credits {
                   cast {
