@@ -15,7 +15,6 @@ type AppProps = {
 };
 
 export default function Home({ movies }: AppProps) {
-
   const minutesToHourFormatter = function (minute: any) {
     let sec_num = parseInt(minute, 10); // don't forget the second param
     let hours: any = Math.floor(sec_num / 3600);
@@ -60,6 +59,8 @@ export default function Home({ movies }: AppProps) {
                       layout="fill"
                       src={data.node.poster}
                       alt={data.node.originalTitle}
+                      placeholder="blur"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPcWw8AAf8BPlp9PLwAAAAASUVORK5CYII="
                     />
                   </div>
                   <div className="p-4">
@@ -116,6 +117,8 @@ export default function Home({ movies }: AppProps) {
                                   "https://via.placeholder.com/150"
                                 }
                                 alt={person.value.name}
+                                placeholder="blur"
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPcWw8AAf8BPlp9PLwAAAAASUVORK5CYII="
                               />
                               <div className="ml-1 inline-flex p-1">
                                 <div>
