@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
 import Image from "next/image";
 
@@ -9,12 +10,18 @@ import { AiOutlineInstagram } from "react-icons/ai";
 import { BiCameraMovie, BiLike, BiMovie } from "react-icons/bi";
 import { MdLanguage, MdMovieFilter } from "react-icons/md";
 import { RiMovie2Line } from "react-icons/ri";
+import { MouseEventHandler, useState } from "react";
+import OverlayPoster from "../components/OverlayPoster";
 
 type AppProps = {
   movies: any[];
 };
 
 export default function Home({ movies }: AppProps) {
+
+  const [isShowPoster, setIsShowPoster] = useState(false);
+  const [posterSrc, setPosterSrc] = useState("");
+
   const minutesToHourFormatter = function (minute: any) {
     let sec_num = parseInt(minute, 10); // don't forget the second param
     let hours: any = Math.floor(sec_num / 3600);
@@ -33,11 +40,19 @@ export default function Home({ movies }: AppProps) {
     return `${minutes}h ${seconds}m`;
   };
 
+  const showPoster: MouseEventHandler<HTMLImageElement> = (event) => {
+    console.log(event.currentTarget.getAttribute("data-src"));
+    const posterSrc = event.currentTarget.getAttribute("data-src")!.toString();
+    setPosterSrc(posterSrc);
+    setIsShowPoster(true);
+  };
+
   return (
     <>
       <Head>
         <title>Now Playing Movies</title>
       </Head>
+      {isShowPoster == true ? <OverlayPoster src={posterSrc} setIsShowPoster={setIsShowPoster} /> : ''}
       <div className="container mx-auto">
         <div className="table-cell text-purple-800">
           <BiCameraMovie className="text-6xl inline-flex mr-2" />
@@ -55,17 +70,15 @@ export default function Home({ movies }: AppProps) {
                 <div className="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden">
                   <div className="relative pb-48 overflow-hidden">
                     <Image
-                      className="absolute inset-0 h-full w-full object-cover select-none"
+                      className="absolute inset-0 h-full w-full object-cover select-none cursor-pointer"
                       layout="fill"
+                      data-src={data.node.poster}
                       src={data.node.poster}
                       alt={data.node.originalTitle}
+                      onClick={showPoster}
                     />
                   </div>
                   <div className="p-4">
-                    {/* <span className="inline-block px-2 py-1 leading-none bg-purple-100 text-purple-800 rounded font-semibold uppercase tracking-wide text-xs">
-                      <BiCameraMovie className="inline-block mr-1" />
-                      Now Playing
-                    </span> */}
                     <span
                       title="Rating"
                       className="inline-block px-2 py-1 ml-1 leading-none bg-indigo-600 text-gray-100 rounded font-bold uppercase tracking-wide text-sm"
@@ -154,21 +167,6 @@ export default function Home({ movies }: AppProps) {
                       )}
                     </div>
                   </div>
-                  {/* <div className="p-4 flex items-center text-sm text-gray-600">
-                    {data.node.productionCompanies.map((company: any) => {
-                      if (company.logo) {
-                        return (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            key={company.logo}
-                            className="mr-2 w-auto select-none"
-                            src={company.logo}
-                            alt={company.name}
-                          />
-                        );
-                      }
-                    })}
-                  </div> */}
                   <div className="p-4 flex items-center text-sm text-gray-600">
                     <a
                       href={data.node.homepage}
@@ -227,13 +225,7 @@ export async function getServerSideProps() {
                 homepage
                 poster(size: W500)
                 originalTitle
-                productionCompanies {
-                  name
-                  logo(size: W45)
-                }
                 videos {
-                  site
-                  type
                   links {
                     web
                   }
