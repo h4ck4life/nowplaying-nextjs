@@ -55,8 +55,8 @@ export default function MovieCard({
           <Image
             className="absolute inset-0 h-full w-full object-cover select-none cursor-pointer"
             layout="fill"
-            data-src={data.node.poster}
-            src={data.node.poster}
+            data-src={data.node.poster || "https://via.placeholder.com/150"}
+            src={data.node.poster || "https://via.placeholder.com/150"}
             alt={data.node.originalTitle}
             onClick={showPoster}
           />
@@ -164,7 +164,7 @@ export default function MovieCard({
             </span>
           </a>
 
-          {data.node.videos && data.node.videos.length > 0 ? (
+          {(data.node.videos && data.node.videos.length > 0 && data.node.videos[0].links) ? (
             <a
               href={data.node.videos[0].links.web}
               target="_blank"

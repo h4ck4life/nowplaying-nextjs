@@ -7,22 +7,46 @@ import OverlayPoster from "../components/OverlayPoster";
 import { useEffect, useState } from "react";
 import { MdMovieFilter } from "react-icons/md";
 import MovieCard from "../components/MovieCard";
+import Loader from "../components/Loader";
 
 type AppProps = {
   movies: any[];
+  nextFirstCursor: string;
 };
 
-export default function Home({ movies }: AppProps) {
+export default function Home({ movies, nextFirstCursor }: AppProps) {
   const [isShowPoster, setIsShowPoster] = useState(false);
   const [posterSrc, setPosterSrc] = useState("");
   const [movieList, setMovieList] = useState(movies);
   const [isLoading, setLoading] = useState(false);
-  const [nextCursor, setNextCursor] = useState("");
+  const [nextCursor, setNextCursor] = useState(nextFirstCursor);
 
   useEffect(() => {
-    setNextCursor(movieList[movieList.length - 1].cursor);
     return () => {};
   }, []);
+
+  useEffect(() => {
+    window.onscroll = function (ev) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && !isLoading) {
+        setLoading(true);
+        (async () => {
+          let response = await fetch(`/api/movies/${nextCursor}`);
+          if (response.ok) {
+            setLoading(false);
+            let data = await response.json();
+            setMovieList((movieList) => [
+              ...movieList,
+              ...data.movies.nowPlaying.edges,
+            ]);
+            setNextCursor(data.movies.nowPlaying.pageInfo.endCursor);
+          } else {
+            setLoading(false);
+            console.log("HTTP-Error: " + response.status);
+          }
+        })();
+      }
+    };
+  }, [nextCursor]);
 
   return (
     <>
@@ -42,27 +66,34 @@ export default function Home({ movies }: AppProps) {
           </span>
         </div>
         <div className="flex flex-wrap -mx-4 mt-2">
-          {movieList.map((data) => {
-            return (
-              <MovieCard
-                key={data.node.id}
-                data={data}
-                setIsShowPoster={setIsShowPoster}
-                setPosterSrc={setPosterSrc}
-              />
-            );
+          {movieList.map((data, index) => {
+            if (data.node) {
+              return (
+                <MovieCard
+                  key={data.node.id}
+                  data={data}
+                  setIsShowPoster={setIsShowPoster}
+                  setPosterSrc={setPosterSrc}
+                />
+              );
+            }
           })}
         </div>
+        {isLoading && <Loader />}
       </div>
     </>
   );
 }
 
-const getNextMoviesGql = (first: number, after: string | number = 0) => {
+const getNextMoviesGql = () => {
   return gql`
-    query getMovies {
+    query getMovies($first: Int) {
       movies {
-        nowPlaying(first: ${first}, after: ${after}) {
+        nowPlaying(first: $first) {
+          pageInfo {
+            endCursor
+            startCursor
+          }
           totalCount
           edges {
             cursor
@@ -108,11 +139,16 @@ const getNextMoviesGql = (first: number, after: string | number = 0) => {
 
 export async function getServerSideProps() {
   const { data } = await client.query({
-    query: getNextMoviesGql(20),
+    query: getNextMoviesGql(),
+    variables: {
+      first: 20,
+    },
+    errorPolicy: "all",
   });
   return {
     props: {
       movies: data.movies.nowPlaying.edges,
+      nextFirstCursor: data.movies.nowPlaying.pageInfo.endCursor,
     },
   };
 }
