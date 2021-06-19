@@ -4,7 +4,7 @@ import Head from "next/head";
 import { gql } from "@apollo/client";
 import client from "../apollo-client";
 import OverlayPoster from "../components/OverlayPoster";
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import { MdMovieFilter } from "react-icons/md";
 import MovieCard from "../components/MovieCard";
 import Loader from "../components/Loader";
@@ -25,34 +25,25 @@ export default function Home({ movies, nextFirstCursor }: AppProps) {
     return () => {};
   }, []);
 
-  useEffect(() => {
-    window.onscroll = function (ev) {
-      if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-        !isLoading
-      ) {
-        setLoading(true);
-        (async () => {
-          let response = await fetch(`/api/movies`, {
-            method: "POST",
-            body: JSON.stringify({nextCursor}),
-          });
-          if (response.ok) {
-            setLoading(false);
-            let data = await response.json();
-            setMovieList((movieList) => [
-              ...movieList,
-              ...data.movies.nowPlaying.edges,
-            ]);
-            setNextCursor(data.movies.nowPlaying.pageInfo.endCursor);
-          } else {
-            setLoading(false);
-            console.log("HTTP-Error: " + response.status);
-          }
-        })();
-      }
-    };
-  }, [nextCursor, isLoading]);
+  const loadMore: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    setLoading(true);
+    let response = await fetch(`/api/movies`, {
+      method: "POST",
+      body: JSON.stringify({ nextCursor }),
+    });
+    if (response.ok) {
+      setLoading(false);
+      let data = await response.json();
+      setMovieList((movieList) => [
+        ...movieList,
+        ...data.movies.nowPlaying.edges,
+      ]);
+      setNextCursor(data.movies.nowPlaying.pageInfo.endCursor);
+    } else {
+      setLoading(false);
+      console.log("HTTP-Error: " + response.status);
+    }
+  };
 
   return (
     <>
@@ -85,7 +76,7 @@ export default function Home({ movies, nextFirstCursor }: AppProps) {
             }
           })}
         </div>
-        {isLoading && <Loader />}
+        <Loader isLoading={isLoading} loadMore={loadMore} />
       </div>
     </>
   );

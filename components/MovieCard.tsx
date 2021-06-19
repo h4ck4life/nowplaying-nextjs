@@ -1,8 +1,5 @@
 import Image from "next/image";
 
-import { gql } from "@apollo/client";
-import client from "../apollo-client";
-
 import { useSpring, animated } from "react-spring";
 import ScrollContainer from "react-indiana-drag-scroll";
 
