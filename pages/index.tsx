@@ -27,14 +27,16 @@ export default function Home({ movies, nextFirstCursor }: AppProps) {
 
   useEffect(() => {
     window.onscroll = function (ev) {
-      console.log(isLoading);
       if (
         window.innerHeight + window.scrollY >= document.body.offsetHeight &&
         !isLoading
       ) {
         setLoading(true);
         (async () => {
-          let response = await fetch(`/api/movies/${nextCursor}`);
+          let response = await fetch(`/api/movies`, {
+            method: "POST",
+            body: JSON.stringify({nextCursor}),
+          });
           if (response.ok) {
             setLoading(false);
             let data = await response.json();

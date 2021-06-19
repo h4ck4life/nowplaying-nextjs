@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { gql } from "@apollo/client";
-import client from "../../../apollo-client";
+import client from "../../apollo-client";
 
 type Data = {
   name: string;
@@ -12,7 +12,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { nextCursor } = req.query;
+  const { nextCursor } = JSON.parse(req.body);
   const { data } = await client.query({
     query: gql`
       query getMovies($first: Int, $after: String) {
