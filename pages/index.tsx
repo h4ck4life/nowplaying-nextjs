@@ -20,6 +20,7 @@ export default function Home({ movies, nextFirstCursor }: AppProps) {
   const [movieList, setMovieList] = useState(movies);
   const [isLoading, setLoading] = useState(false);
   const [nextCursor, setNextCursor] = useState(nextFirstCursor);
+  const [hasNextPage, setHasNextPage] = useState(true);
 
   useEffect(() => {
     return () => {};
@@ -39,6 +40,9 @@ export default function Home({ movies, nextFirstCursor }: AppProps) {
         ...data.movies.nowPlaying.edges,
       ]);
       setNextCursor(data.movies.nowPlaying.pageInfo.endCursor);
+      if (data.movies.nowPlaying.pageInfo.hasNextPage == false) {
+        setHasNextPage(false);
+      }
     } else {
       setLoading(false);
       console.log("HTTP-Error: " + response.status);
@@ -76,7 +80,7 @@ export default function Home({ movies, nextFirstCursor }: AppProps) {
             }
           })}
         </div>
-        <Loader isLoading={isLoading} loadMore={loadMore} />
+        {hasNextPage && <Loader isLoading={isLoading} loadMore={loadMore} />}
       </div>
     </>
   );
@@ -90,6 +94,7 @@ const getNextMoviesGql = () => {
           pageInfo {
             endCursor
             startCursor
+            hasNextPage
           }
           totalCount
           edges {

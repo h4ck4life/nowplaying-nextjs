@@ -21,6 +21,7 @@ export default async function handler(
             pageInfo {
               endCursor
               startCursor
+              hasNextPage
             }
             totalCount
             edges {
