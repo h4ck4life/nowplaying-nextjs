@@ -4,7 +4,7 @@ import { gql } from "@apollo/client";
 import client from "../apollo-client";
 
 import { useSpring, animated } from "react-spring";
-import ScrollContainer from 'react-indiana-drag-scroll';
+import ScrollContainer from "react-indiana-drag-scroll";
 
 import dayjs from "dayjs";
 import { AiOutlineInstagram } from "react-icons/ai";
@@ -91,11 +91,14 @@ export default function MovieCard({
             {data.node.originalTitle}
           </h2>
           <div className="mb-2 text-gray-500">
-              {data.node.genres.map((genre: any, index: number) => {
-                  return(
-                      <span className="italic text-sm mr-2" key={index}>{genre.name}</span>
-                  )
-              })}
+            {data.node.genres.map((genre: any, index: number) => {
+              return (
+                <span className="italic text-sm mr-1" key={index}>
+                  {genre.name}
+                  {index != data.node.genres.length - 1 ? "," : ""}
+                </span>
+              );
+            })}
           </div>
           <p className="text-base">{data.node.overview}</p>
         </div>
