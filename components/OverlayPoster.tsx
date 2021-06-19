@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { useState } from "react";
+import { useSpring, animated } from "react-spring";
 
 type AppProps = {
   src: string;
@@ -8,11 +8,13 @@ type AppProps = {
 };
 
 export default function OverlayPoster({ src, setIsShowPoster }: AppProps) {
+  const props = useSpring({ to: { opacity: 1 }, from: { opacity: 0 } });
   const hidePoster = () => {
     setIsShowPoster(false);
   };
   return (
-    <div
+    <animated.div
+      style={props}
       onClick={hidePoster}
       className="bg-black bg-opacity-70 flex items-center justify-center h-screen w-screen fixed z-40 top-0 left-0"
     >
@@ -25,6 +27,6 @@ export default function OverlayPoster({ src, setIsShowPoster }: AppProps) {
           alt=""
         />
       </div>
-    </div>
+    </animated.div>
   );
 }
