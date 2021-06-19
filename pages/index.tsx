@@ -5,6 +5,8 @@ import Image from "next/image";
 import { gql } from "@apollo/client";
 import client from "../apollo-client";
 
+import { useSpring, animated } from "react-spring";
+
 import dayjs from "dayjs";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { BiCameraMovie, BiLike, BiMovie } from "react-icons/bi";
@@ -18,9 +20,10 @@ type AppProps = {
 };
 
 export default function Home({ movies }: AppProps) {
-
   const [isShowPoster, setIsShowPoster] = useState(false);
   const [posterSrc, setPosterSrc] = useState("");
+
+  const props = useSpring({ to: { opacity: 1 }, from: { opacity: 0 } });
 
   const minutesToHourFormatter = function (minute: any) {
     let sec_num = parseInt(minute, 10); // don't forget the second param
@@ -52,7 +55,11 @@ export default function Home({ movies }: AppProps) {
       <Head>
         <title>Now Playing Movies</title>
       </Head>
-      {isShowPoster == true ? <OverlayPoster src={posterSrc} setIsShowPoster={setIsShowPoster} /> : ''}
+      {isShowPoster == true ? (
+        <OverlayPoster src={posterSrc} setIsShowPoster={setIsShowPoster} />
+      ) : (
+        ""
+      )}
       <div className="container mx-auto">
         <div className="table-cell text-purple-800">
           <BiCameraMovie className="text-6xl inline-flex mr-2" />
@@ -68,7 +75,10 @@ export default function Home({ movies }: AppProps) {
                 className="w-full sm:w-1/2 md:w-1/2 xl:w-1/4 p-4 "
               >
                 <div className="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden">
-                  <div className="relative pb-48 overflow-hidden">
+                  <animated.div
+                    style={props}
+                    className="relative pb-48 overflow-hidden"
+                  >
                     <Image
                       className="absolute inset-0 h-full w-full object-cover select-none cursor-pointer"
                       layout="fill"
@@ -77,7 +87,7 @@ export default function Home({ movies }: AppProps) {
                       alt={data.node.originalTitle}
                       onClick={showPoster}
                     />
-                  </div>
+                  </animated.div>
                   <div className="p-4">
                     <span
                       title="Rating"
