@@ -14,7 +14,7 @@ type AppProps = {
 export default function Home({ movies }: AppProps) {
   const [isShowPoster, setIsShowPoster] = useState(false);
   const [posterSrc, setPosterSrc] = useState("");
-  const [movieList, setMovieList] = useState(movies)
+  const [movieList, setMovieList] = useState(movies);
 
   return (
     <>
@@ -71,6 +71,9 @@ export async function getServerSideProps() {
                 homepage
                 poster(size: W500)
                 originalTitle
+                genres {
+                  name
+                }
                 videos {
                   links {
                     web

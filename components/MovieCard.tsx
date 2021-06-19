@@ -87,9 +87,16 @@ export default function MovieCard({
           >
             {dayjs(data.node.releaseDate).format("DD MMM YYYY")}
           </span>
-          <h2 className="mt-4 mb-3 font-bold text-2xl">
+          <h2 className="mt-4 mb-1 font-bold text-2xl">
             {data.node.originalTitle}
           </h2>
+          <div className="mb-2 text-gray-500">
+              {data.node.genres.map((genre: any, index: number) => {
+                  return(
+                      <span className="italic text-sm mr-2" key={index}>{genre.name}</span>
+                  )
+              })}
+          </div>
           <p className="text-base">{data.node.overview}</p>
         </div>
         <div className="p-1 border-t border-b border-gray-800 text-xs bg-gray-700">
@@ -107,7 +114,7 @@ export default function MovieCard({
                     height="100"
                     src={
                       person.value.profilePicture ||
-                      "https://via.placeholder.com/150"
+                      "https://via.placeholder.com/90"
                     }
                     alt={person.value.name}
                     placeholder="blur"
