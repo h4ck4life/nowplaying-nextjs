@@ -4,6 +4,7 @@ import { gql } from "@apollo/client";
 import client from "../apollo-client";
 
 import { useSpring, animated } from "react-spring";
+import ScrollContainer from 'react-indiana-drag-scroll';
 
 import dayjs from "dayjs";
 import { AiOutlineInstagram } from "react-icons/ai";
@@ -92,7 +93,7 @@ export default function MovieCard({
           <p className="text-base">{data.node.overview}</p>
         </div>
         <div className="p-1 border-t border-b border-gray-800 text-xs bg-gray-700">
-          <div className="flex overflow-x-scroll no-scrollbar">
+          <ScrollContainer className="flex overflow-x-scroll no-scrollbar">
             {data.node.credits.cast.map((person: any, index: number) => {
               if (index > 8) return;
               return (
@@ -143,7 +144,7 @@ export default function MovieCard({
                 </div>
               );
             })}
-          </div>
+          </ScrollContainer>
         </div>
         <div className="p-4 flex items-center text-sm">
           <a href={data.node.homepage} target="_blank" rel="noreferrer">
