@@ -59,8 +59,6 @@ export default function Home({ movies }: AppProps) {
                       layout="fill"
                       src={data.node.poster}
                       alt={data.node.originalTitle}
-                      placeholder="blur"
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPcWw8AAf8BPlp9PLwAAAAASUVORK5CYII="
                     />
                   </div>
                   <div className="p-4">
