@@ -13,7 +13,6 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const { nextCursor } = req.query;
-  console.log(nextCursor);
   const { data } = await client.query({
     query: gql`
       query getMovies($first: Int, $after: String) {
@@ -70,6 +69,5 @@ export default async function handler(
     },
     errorPolicy: "all",
   });
-  console.log(data);
   res.status(200).json(data);
 }
