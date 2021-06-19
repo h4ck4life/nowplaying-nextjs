@@ -12,7 +12,7 @@ export default function Loader({ isLoading, loadMore }: AppProps) {
       {isLoading ? (
         <animated.svg
           style={props}
-          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+          className="animate-spin -ml-1 mr-3 h-7 w-7 text-white"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -34,10 +34,10 @@ export default function Loader({ isLoading, loadMore }: AppProps) {
       ) : (
         <animated.button
           style={props}
-          className="p-2 border-gray-900 border-2 rounded font-bold tracking-wide"
+          className="p-2 hover:border-gray-800 border-2 border-black rounded font-bold tracking-wide text-xl"
           onClick={loadMore}
         >
-          Load More
+          Load More...
         </animated.button>
       )}
     </div>
