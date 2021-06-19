@@ -114,7 +114,7 @@ export default function MovieCard({
                     height="100"
                     src={
                       person.value.profilePicture ||
-                      "https://via.placeholder.com/90"
+                      "https://via.placeholder.com/130x170?text=Cast"
                     }
                     alt={person.value.name}
                     placeholder="blur"
