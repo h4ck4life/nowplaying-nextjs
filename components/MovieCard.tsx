@@ -63,7 +63,7 @@ export default function MovieCard({
         <div className="p-4">
           <span
             title="Rating"
-            className="inline-block px-2 py-1 ml-1 leading-none bg-indigo-600 text-gray-100 rounded font-bold uppercase tracking-wide text-sm"
+            className="inline-block px-2 py-1 ml-1 leading-none bg-purple-600 text-gray-100 rounded font-bold uppercase tracking-wide text-sm"
           >
             <BiLike className="inline-block mr-1" />
             {(data.node.rating as number).toFixed(1)}
@@ -91,7 +91,7 @@ export default function MovieCard({
           </h2>
           <p className="text-base">{data.node.overview}</p>
         </div>
-        <div className="p-2 border-t border-b border-gray-800 text-xs bg-gray-700">
+        <div className="p-1 border-t border-b border-gray-800 text-xs bg-gray-700">
           <div className="flex overflow-x-scroll no-scrollbar">
             {data.node.credits.cast.map((person: any, index: number) => {
               if (index > 8) return;
