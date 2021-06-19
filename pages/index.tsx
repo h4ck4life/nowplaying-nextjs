@@ -27,7 +27,7 @@ export default function Home({ movies }: AppProps) {
         ""
       )}
       <div className="container mx-auto">
-        <div className="table-cell text-purple-800">
+        <div className="table-cell text-purple-500">
           <MdMovieFilter className="text-6xl inline-flex mr-2" />
           <span className="text-3xl font-semibold align-middle">
             NowPlaying
@@ -40,7 +40,7 @@ export default function Home({ movies }: AppProps) {
                 key={data.node.id}
                 data={data}
                 setIsShowPoster={setIsShowPoster}
-                setPosterSrc={setIsShowPoster}
+                setPosterSrc={setPosterSrc}
               />
             );
           })}

@@ -14,10 +14,14 @@ import { MouseEventHandler } from "react";
 type AppProps = {
   data: any;
   setIsShowPoster: any;
-  setPosterSrc: any
+  setPosterSrc: any;
 };
 
-export default function MovieCard({ data, setIsShowPoster, setPosterSrc }: AppProps) {
+export default function MovieCard({
+  data,
+  setIsShowPoster,
+  setPosterSrc,
+}: AppProps) {
   const props = useSpring({ to: { opacity: 1 }, from: { opacity: 0 } });
 
   const minutesToHourFormatter = function (minute: any) {
@@ -38,7 +42,6 @@ export default function MovieCard({ data, setIsShowPoster, setPosterSrc }: AppPr
   };
 
   const showPoster: MouseEventHandler<HTMLImageElement> = (event) => {
-    console.log(event.currentTarget.getAttribute("data-src"));
     const posterSrc = event.currentTarget.getAttribute("data-src")!.toString();
     setPosterSrc(posterSrc);
     setIsShowPoster(true);
@@ -46,7 +49,7 @@ export default function MovieCard({ data, setIsShowPoster, setPosterSrc }: AppPr
 
   return (
     <div className="w-full sm:w-1/2 md:w-1/2 xl:w-1/4 p-4 ">
-      <div className="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden">
+      <div className="c-card block bg-gray-900 shadow-md hover:shadow-xl rounded-lg overflow-hidden">
         <animated.div style={props} className="relative pb-48 overflow-hidden">
           <Image
             className="absolute inset-0 h-full w-full object-cover select-none cursor-pointer"
@@ -67,19 +70,19 @@ export default function MovieCard({ data, setIsShowPoster, setPosterSrc }: AppPr
           </span>
           <span
             title="Language"
-            className="inline-block px-2 py-1 ml-1 leading-none bg-gray-100 text-purple-800 rounded font-bold capitalize tracking-wide text-sm"
+            className="inline-block px-2 py-1 ml-1 leading-none bg-gray-800 rounded font-bold capitalize tracking-wide text-sm"
           >
             {data.node.originalLanguage}
           </span>
           <span
             title="Runtime"
-            className="inline-block px-2 py-1 ml-1 leading-none bg-gray-100 text-purple-800 rounded font-bold tracking-wide text-sm"
+            className="inline-block px-2 py-1 ml-1 leading-none bg-gray-800 rounded font-bold tracking-wide text-sm"
           >
             {minutesToHourFormatter(data.node.runtime)}
           </span>
           <span
             title="Released date"
-            className="inline-block  px-2 py-1 ml-1 leading-none bg-gray-100 text-purple-800 rounded font-bold capitalize tracking-wide text-sm"
+            className="inline-block  px-2 py-1 ml-1 leading-none bg-gray-800 rounded font-bold capitalize tracking-wide text-sm"
           >
             {dayjs(data.node.releaseDate).format("DD MMM YYYY")}
           </span>
@@ -88,14 +91,14 @@ export default function MovieCard({ data, setIsShowPoster, setPosterSrc }: AppPr
           </h2>
           <p className="text-base">{data.node.overview}</p>
         </div>
-        <div className="p-2 border-t border-b text-xs bg-gray-50">
-          <div className="flex overflow-x-scroll">
+        <div className="p-2 border-t border-b border-gray-800 text-xs bg-gray-700">
+          <div className="flex overflow-x-scroll no-scrollbar">
             {data.node.credits.cast.map((person: any, index: number) => {
               if (index > 8) return;
               return (
                 <div
                   key={person.value.name}
-                  className="flex-shrink-0 m-2 p-2 shadow-md rounded-lg bg-white inline-flex"
+                  className="flex-shrink-0 m-2 p-2 shadow-md rounded-lg bg-gray-800 inline-flex"
                 >
                   <Image
                     className="object-cover rounded-lg select-none"
@@ -122,7 +125,7 @@ export default function MovieCard({ data, setIsShowPoster, setPosterSrc }: AppPr
                         <div className="block cursor-pointer">
                           <a
                             href={`https://www.instagram.com/${person.value.externalIds.instagram}`}
-                            className="no-underline text-pink-700"
+                            className="no-underline text-pink-500"
                             target="_blank"
                             rel="noreferrer"
                           >
@@ -142,9 +145,9 @@ export default function MovieCard({ data, setIsShowPoster, setPosterSrc }: AppPr
             })}
           </div>
         </div>
-        <div className="p-4 flex items-center text-sm text-gray-600">
+        <div className="p-4 flex items-center text-sm">
           <a href={data.node.homepage} target="_blank" rel="noreferrer">
-            <span className="bg-gray-50 hover:bg-gray-200 cursor-pointer p-1 rounded mr-2 font-semibold">
+            <span className="bg-gray-800 hover:bg-gray-700 cursor-pointer p-1 rounded mr-2 font-semibold">
               <MdLanguage className="inline-flex mr-1" />
               Official Site
             </span>
@@ -156,7 +159,7 @@ export default function MovieCard({ data, setIsShowPoster, setPosterSrc }: AppPr
               target="_blank"
               rel="noreferrer"
             >
-              <span className="bg-gray-50 hover:bg-gray-200 cursor-pointer p-1 rounded mr-2 font-semibold">
+              <span className="bg-gray-800 hover:bg-gray-700 cursor-pointer p-1 rounded mr-2 font-semibold">
                 <BiMovie className="inline-flex mr-1" />
                 Trailer
               </span>

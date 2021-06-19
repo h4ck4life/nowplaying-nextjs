@@ -16,7 +16,7 @@ export default function OverlayPoster({ src, setIsShowPoster }: AppProps) {
     <animated.div
       style={props}
       onClick={hidePoster}
-      className="bg-black bg-opacity-70 flex items-center justify-center h-screen w-screen fixed z-40 top-0 left-0"
+      className="bg-black bg-opacity-90 backdrop-blur-3xl flex items-center justify-center h-screen w-screen fixed z-40 top-0 left-0"
     >
       <div className="p-7">
         <img
