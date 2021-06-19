@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
 import { gql } from "@apollo/client";
 import client from "../apollo-client";
 import OverlayPoster from "../components/OverlayPoster";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdMovieFilter } from "react-icons/md";
 import MovieCard from "../components/MovieCard";
 
@@ -15,6 +16,13 @@ export default function Home({ movies }: AppProps) {
   const [isShowPoster, setIsShowPoster] = useState(false);
   const [posterSrc, setPosterSrc] = useState("");
   const [movieList, setMovieList] = useState(movies);
+  const [isLoading, setLoading] = useState(false);
+  const [nextCursor, setNextCursor] = useState("");
+
+  useEffect(() => {
+    setNextCursor(movieList[movieList.length - 1].cursor);
+    return () => {};
+  }, []);
 
   return (
     <>
@@ -50,45 +58,43 @@ export default function Home({ movies }: AppProps) {
   );
 }
 
-export async function getServerSideProps() {
-  const { data } = await client.query({
-    query: gql`
-      query getMovies {
-        movies {
-          nowPlaying(first: 20) {
-            totalCount
-            edges {
-              cursor
-              node {
-                id
-                revenue
-                runtime
-                releaseDate
-                rating
-                overview
-                originalLanguage
-                numberOfRatings
-                homepage
-                poster(size: W500)
-                originalTitle
-                genres {
-                  name
+const getNextMoviesGql = (first: number, after: string | number = 0) => {
+  return gql`
+    query getMovies {
+      movies {
+        nowPlaying(first: ${first}, after: ${after}) {
+          totalCount
+          edges {
+            cursor
+            node {
+              id
+              revenue
+              runtime
+              releaseDate
+              rating
+              overview
+              originalLanguage
+              numberOfRatings
+              homepage
+              poster(size: W500)
+              originalTitle
+              genres {
+                name
+              }
+              videos {
+                links {
+                  web
                 }
-                videos {
-                  links {
-                    web
-                  }
-                }
-                credits {
-                  cast {
-                    value {
-                      name
-                      externalIds {
-                        instagram
-                      }
-                      birthday
-                      profilePicture(size: W185)
+              }
+              credits {
+                cast {
+                  value {
+                    name
+                    externalIds {
+                      instagram
                     }
+                    birthday
+                    profilePicture(size: W185)
                   }
                 }
               }
@@ -96,9 +102,14 @@ export async function getServerSideProps() {
           }
         }
       }
-    `,
-  });
+    }
+  `;
+};
 
+export async function getServerSideProps() {
+  const { data } = await client.query({
+    query: getNextMoviesGql(20),
+  });
   return {
     props: {
       movies: data.movies.nowPlaying.edges,
