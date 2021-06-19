@@ -27,7 +27,11 @@ export default function Home({ movies, nextFirstCursor }: AppProps) {
 
   useEffect(() => {
     window.onscroll = function (ev) {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && !isLoading) {
+      console.log(isLoading);
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+        !isLoading
+      ) {
         setLoading(true);
         (async () => {
           let response = await fetch(`/api/movies/${nextCursor}`);
@@ -46,7 +50,7 @@ export default function Home({ movies, nextFirstCursor }: AppProps) {
         })();
       }
     };
-  }, [nextCursor]);
+  }, [nextCursor, isLoading]);
 
   return (
     <>
