@@ -18,9 +18,9 @@ export default function OverlayPoster({ src, setIsShowPoster }: AppProps) {
       onClick={hidePoster}
       className="bg-black bg-opacity-70 flex items-center justify-center h-screen w-screen fixed z-40 top-0 left-0"
     >
-      <div className="rounded-lg">
+      <div className="p-7">
         <img
-          className="object-cover select-none z-50 p-7"
+          className="object-cover select-none z-50 rounded-lg shadow-lg"
           width=""
           height=""
           src={src}
