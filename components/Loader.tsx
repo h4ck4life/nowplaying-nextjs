@@ -32,13 +32,14 @@ export default function Loader({ isLoading, loadMore }: AppProps) {
           ></path>
         </animated.svg>
       ) : (
-        <animated.button
-          style={props}
-          className="p-2 hover:border-gray-800 border-2 border-black rounded font-bold tracking-wide text-xl"
-          onClick={loadMore}
-        >
-          Load More...
-        </animated.button>
+        <animated.div style={props} className="flex flex-col justify-center">
+          <button
+            className="p-2 hover:border-gray-800 border-2 border-black rounded text-xl font-bold"
+            onClick={loadMore}
+          >
+            Load More...
+          </button>
+        </animated.div>
       )}
     </div>
   );
