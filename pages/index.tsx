@@ -9,9 +9,8 @@ import { useSpring, animated } from "react-spring";
 
 import dayjs from "dayjs";
 import { AiOutlineInstagram } from "react-icons/ai";
-import { BiCameraMovie, BiLike, BiMovie } from "react-icons/bi";
+import { BiLike, BiMovie } from "react-icons/bi";
 import { MdLanguage, MdMovieFilter } from "react-icons/md";
-import { RiMovie2Line } from "react-icons/ri";
 import { MouseEventHandler, useState } from "react";
 import OverlayPoster from "../components/OverlayPoster";
 
@@ -62,7 +61,7 @@ export default function Home({ movies }: AppProps) {
       )}
       <div className="container mx-auto">
         <div className="table-cell text-purple-800">
-          <BiCameraMovie className="text-6xl inline-flex mr-2" />
+          <MdMovieFilter className="text-6xl inline-flex mr-2" />
           <span className="text-3xl font-semibold align-middle">
             NowPlaying
           </span>
