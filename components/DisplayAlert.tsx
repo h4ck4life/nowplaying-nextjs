@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSpring, animated } from "react-spring";
 
 type AppProps = {
@@ -7,15 +7,19 @@ type AppProps = {
 };
 
 export default function DisplayAlert({ setShowAlert }: AppProps) {
+  const [fadeOut, setFadeOut] = useState(false);
   const props = useSpring({
-    to: { opacity: 1 },
-    from: { opacity: 0 },
+    to: { opacity: fadeOut ? 0 : 1 },
+    from: { opacity: fadeOut ? 1 : 0 },
     config: { duration: 300 },
+    onResolve: () => {
+      fadeOut && setShowAlert(false);
+    },
   });
 
   useEffect(() => {
     setTimeout(() => {
-      setShowAlert(false);
+      setFadeOut(true);
     }, 2000);
   }, []);
 
