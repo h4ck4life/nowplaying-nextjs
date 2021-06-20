@@ -34,10 +34,10 @@ export default function Loader({ isLoading, loadMore }: AppProps) {
       ) : (
         <animated.div style={props} className="flex flex-col justify-center">
           <button
-            className="p-2 hover:border-gray-800 border-2 border-black rounded text-xl font-bold"
+            className="animate-pulse p-2 hover:border-gray-800 border-2 border-black rounded text-xl font-bold"
             onClick={loadMore}
           >
-            Load More...
+            Tap to load more
           </button>
         </animated.div>
       )}
