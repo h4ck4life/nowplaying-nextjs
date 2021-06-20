@@ -49,12 +49,15 @@ export default function MovieCard({
     return (
       <div className="w-full sm:w-1/2 md:w-1/2 xl:w-1/4 p-4 ">
         <div className="c-card block bg-gray-900 shadow-md hover:shadow-xl rounded-lg overflow-hidden">
-          <animated.div style={props} className="relative pb-48 overflow-hidden">
+          <animated.div
+            style={props}
+            className="relative pb-48 overflow-hidden"
+          >
             <Image
               className="absolute inset-0 h-full w-full object-cover select-none cursor-pointer"
               layout="fill"
-              data-src={data.node.poster || "https://via.placeholder.com/150"}
-              src={data.node.poster || "https://via.placeholder.com/150"}
+              data-src={data.node.poster || "https://via.placeholder.com/500"}
+              src={data.node.poster || "https://via.placeholder.com/500"}
               alt={data.node.originalTitle}
               onClick={showPoster}
             />
@@ -110,13 +113,18 @@ export default function MovieCard({
                     className="flex-shrink-0 m-2 p-2 shadow-md rounded-lg bg-gray-800 inline-flex"
                   >
                     <Image
-                      className="object-cover rounded-lg select-none"
+                      className="object-cover rounded-lg select-none cursor-pointer"
                       width="70"
                       height="100"
+                      data-src={
+                        person.value.profilePicture ||
+                        "https://via.placeholder.com/130x170?text=Cast"
+                      }
                       src={
                         person.value.profilePicture ||
                         "https://via.placeholder.com/130x170?text=Cast"
                       }
+                      onClick={showPoster}
                       alt={person.value.name}
                       placeholder="blur"
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPcWw8AAf8BPlp9PLwAAAAASUVORK5CYII="
@@ -161,8 +169,10 @@ export default function MovieCard({
                 Official Site
               </span>
             </a>
-  
-            {(data.node.videos && data.node.videos.length > 0 && data.node.videos[0].links) ? (
+
+            {data.node.videos &&
+            data.node.videos.length > 0 &&
+            data.node.videos[0].links ? (
               <a
                 href={data.node.videos[0].links.web}
                 target="_blank"
@@ -180,5 +190,5 @@ export default function MovieCard({
         </div>
       </div>
     );
-  }, [data, props, showPoster])
+  }, [data, props, showPoster]);
 }

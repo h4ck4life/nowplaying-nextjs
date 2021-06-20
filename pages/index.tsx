@@ -127,7 +127,7 @@ const getNextMoviesGql = () => {
                       instagram
                     }
                     birthday
-                    profilePicture(size: W185)
+                    profilePicture(size: H632)
                   }
                 }
               }
