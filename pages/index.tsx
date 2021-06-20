@@ -8,6 +8,7 @@ import { MouseEventHandler, useEffect, useState } from "react";
 import { MdMovieFilter } from "react-icons/md";
 import MovieCard from "../components/MovieCard";
 import Loader from "../components/Loader";
+import DisplayAlert from "../components/DisplayAlert";
 
 type AppProps = {
   movies: any[];
@@ -21,6 +22,7 @@ export default function Home({ movies, nextFirstCursor }: AppProps) {
   const [isLoading, setLoading] = useState(false);
   const [nextCursor, setNextCursor] = useState(nextFirstCursor);
   const [hasNextPage, setHasNextPage] = useState(true);
+  const [isShowAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     return () => {};
@@ -28,24 +30,29 @@ export default function Home({ movies, nextFirstCursor }: AppProps) {
 
   const loadMore: MouseEventHandler<HTMLButtonElement> = async (event) => {
     setLoading(true);
-    let response = await fetch(`/api/movies`, {
-      method: "POST",
-      body: JSON.stringify({ nextCursor }),
-    });
-    if (response.ok) {
-      setLoading(false);
-      let data = await response.json();
-      setMovieList((movieList) => [
-        ...movieList,
-        ...data.movies.nowPlaying.edges,
-      ]);
-      setNextCursor(data.movies.nowPlaying.pageInfo.endCursor);
-      if (data.movies.nowPlaying.pageInfo.hasNextPage == false) {
-        setHasNextPage(false);
+    try {
+      let response = await fetch(`/api/movies`, {
+        method: "POST",
+        body: JSON.stringify({ nextCursor }),
+      });
+      if (response.ok) {
+        setLoading(false);
+        let data = await response.json();
+        setMovieList((movieList) => [
+          ...movieList,
+          ...data.movies.nowPlaying.edges,
+        ]);
+        setNextCursor(data.movies.nowPlaying.pageInfo.endCursor);
+        if (data.movies.nowPlaying.pageInfo.hasNextPage == false) {
+          setHasNextPage(false);
+        }
+      } else {
+        setLoading(false);
+        setShowAlert(true);
+        console.log("HTTP-Error: " + response.status);
       }
-    } else {
-      setLoading(false);
-      console.log("HTTP-Error: " + response.status);
+    } catch (error) {
+      setShowAlert(true);
     }
   };
 
@@ -80,6 +87,7 @@ export default function Home({ movies, nextFirstCursor }: AppProps) {
             }
           })}
         </div>
+        {isShowAlert && <DisplayAlert setShowAlert={setShowAlert} />}
         {hasNextPage && <Loader isLoading={isLoading} loadMore={loadMore} />}
       </div>
     </>
