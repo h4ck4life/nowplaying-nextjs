@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { BiLike, BiMovie } from "react-icons/bi";
 import { MdLanguage } from "react-icons/md";
-import { MouseEventHandler, useMemo } from "react";
+import { MouseEventHandler, useMemo, useCallback } from "react";
 
 type AppProps = {
   data: any;
@@ -39,11 +39,16 @@ export default function MovieCard({
     return `${minutes}h ${seconds}m`;
   };
 
-  const showPoster: MouseEventHandler<HTMLImageElement> = (event) => {
-    const posterSrc = event.currentTarget.getAttribute("data-src")!.toString();
-    setPosterSrc(posterSrc);
-    setIsShowPoster(true);
-  };
+  const showPoster: MouseEventHandler<HTMLImageElement> = useCallback(
+    (event) => {
+      const posterSrc = event.currentTarget
+        .getAttribute("data-src")!
+        .toString();
+      setPosterSrc(posterSrc);
+      setIsShowPoster(true);
+    },
+    [setIsShowPoster, setPosterSrc]
+  );
 
   return useMemo(() => {
     return (

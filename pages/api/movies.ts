@@ -65,7 +65,7 @@ export default async function handler(
       }
     `,
     variables: {
-      first: 4,
+      first: 12,
       after: nextCursor
     },
     errorPolicy: "all",

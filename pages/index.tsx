@@ -151,7 +151,7 @@ export async function getServerSideProps() {
   const { data } = await client.query({
     query: getNextMoviesGql(),
     variables: {
-      first: 4,
+      first: 12,
     },
     errorPolicy: "all",
   });
